@@ -1,6 +1,7 @@
 ﻿using Domain.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleCrudWpf.View;
 using SimpleCrudWpf.ViewModel;
 using System.IO;
 using System.Windows;
@@ -37,9 +38,11 @@ namespace SimpleCrudWpf
 
             // Registering ViewModel
             services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<EmployeeCrudTableViewModel>();
 
             // Registering MainWindow
             services.AddTransient<MainWindow>();
+            services.AddTransient<EmployeeControl>();
 
             ServiceProvider = services.BuildServiceProvider();
 
