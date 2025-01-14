@@ -17,6 +17,7 @@
                 <Button Content="Добавить" Margin="0,0,10,0" Command="{Binding AddCommand}" />
                 <Button Content="Редактировать" Margin="0,0,10,0" Command="{Binding EditCommand}" />
                 <Button Content="Удалить" Margin="0,0,10,0" Command="{Binding DeleteCommand}" />
+                <Button Content="Обновить" Margin="0,0,10,0" Command="{Binding RefreshCommand}" />
             </StackPanel>
 
             <DataGrid 
