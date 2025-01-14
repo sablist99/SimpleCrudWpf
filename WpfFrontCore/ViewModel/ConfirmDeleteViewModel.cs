@@ -34,11 +34,6 @@ namespace WpfFrontCore.ViewModel
         }
 
 
-        private void CloseWindow()
-        {
-            // In MVVM, the ViewModel should not interact directly with the View.
-            Application.Current.Windows.OfType<Window>()
-                .FirstOrDefault(w => w.DataContext == this)?.Close();
-        }
+
     }
 }

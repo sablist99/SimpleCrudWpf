@@ -12,10 +12,10 @@ namespace WpfFrontCore.ViewModel
     {
         public CrudTableViewModel(ApiClient<T> client)
         {
-            AddCommand = new RelayCommand(OnAdd);
-            EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
-            DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
-            RefreshCommand = new RelayCommand(OnRefresh);
+            AddCommand = new RelayCommand(OnAddCommand);
+            EditCommand = new RelayCommand(OnEditCommand, CanEditOrDelete);
+            DeleteCommand = new RelayCommand(OnDeleteCommand, CanEditOrDelete);
+            RefreshCommand = new RelayCommand(OnRefreshCommand);
 
             Client = client;
 
@@ -23,7 +23,7 @@ namespace WpfFrontCore.ViewModel
 
             try
             {
-                OnRefresh();
+                OnRefreshCommand();
             }
             catch (Exception ex) { }
         }
@@ -63,41 +63,15 @@ namespace WpfFrontCore.ViewModel
             }
         }
 
-        protected virtual void OnAdd()
+        protected virtual async Task Add() => 
+            throw new NotImplementedException();
+
+        protected virtual async Task Edit() => 
+            throw new NotImplementedException();
+
+        protected virtual async Task Delete()
         {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                var errorWindow = new ErrorWindow($"Add data error: {ex.Message}");
-                errorWindow.ShowDialog();
-            }
-        }
-
-        protected virtual void OnEdit()
-        {
-            if (SelectedItem == null) return;
-
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                var errorWindow = new ErrorWindow($"Edit data error: {ex.Message}");
-                errorWindow.ShowDialog();
-            }
-        }
-
-        protected virtual async void OnDelete()
-        {
-            if (SelectedItem == null) return;
-
-            try
-            {
-                var fieldValues = TableConfiguration
+            var fieldValues = TableConfiguration
                     .Select(config => new FieldValue
                     {
                         Field = config.Label,
@@ -107,16 +81,57 @@ namespace WpfFrontCore.ViewModel
                                             .ToString() ?? string.Empty
                     });
 
-                var viewModel = new ConfirmDeleteViewModel(fieldValues);
-                var confirmWindow = new ConfirmDeleteWindow { DataContext = viewModel };
+            var viewModel = new ConfirmDeleteViewModel(fieldValues);
+            var confirmWindow = new ConfirmDeleteWindow { DataContext = viewModel };
 
-                confirmWindow.ShowDialog();
+            confirmWindow.ShowDialog();
 
-                if (viewModel.DialogResult)
-                {
-                    await Client.DeleteAsync(SelectedItem.Id);
-                    TableData.Remove(SelectedItem);
-                }
+            if (viewModel.DialogResult)
+            {
+                await Client.DeleteAsync(SelectedItem.Id);
+                TableData.Remove(SelectedItem);
+            }
+        }
+
+        protected virtual async Task Refresh() => 
+            TableData = new ObservableCollection<T>(await FetchDataDelegate.Invoke());
+
+        #region Commands
+        private void OnAddCommand()
+        {
+            try
+            {
+                Add();
+            }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Add data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
+        }
+
+        private void OnEditCommand()
+        {
+            if (SelectedItem == null) return;
+
+            try
+            {
+                Edit();
+            }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Edit data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
+        }
+
+        private void OnDeleteCommand()
+        {
+            if (SelectedItem == null) return;
+
+            try
+            {
+                Delete();
             }
             catch (HttpRequestException ex) when (ex.Message.Contains("foreign key constraint"))
             {
@@ -130,11 +145,11 @@ namespace WpfFrontCore.ViewModel
             }
         }
 
-        protected virtual async void OnRefresh()
+        protected virtual async void OnRefreshCommand()
         {
             try
             {
-                TableData = new ObservableCollection<T>(await FetchDataDelegate.Invoke());
+                Refresh();
             }
             catch (Exception ex)
             {
@@ -142,8 +157,9 @@ namespace WpfFrontCore.ViewModel
                 errorWindow.ShowDialog();
             }
         }
+        #endregion Commands
 
-        #region Commands
+        #region ICommands
         public ICommand AddCommand { get; }
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
