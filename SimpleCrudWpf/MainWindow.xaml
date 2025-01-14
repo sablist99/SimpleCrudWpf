@@ -2,10 +2,25 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:view="clr-namespace:SimpleCrudWpf.View"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:view="clr-namespace:WpfFrontCore.View;assembly=WpfFrontCore"
         mc:Ignorable="d"
-        Title="SimpleCrudWpf" Height="600" Width="1000">
+        Title="Главная" Height="600" Width="1600">
     <Grid>
-        <ContentControl x:Name="EmployeeControlPlaceholder" />
+        <TabControl>
+            <TabItem Header="Проекты">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <view:CrudTableView x:Name="ProjectControl" DataContext="{Binding ProjectControlViewModel}" Grid.Column="0"/>
+                    <view:CrudTableView x:Name="EmployeeOnProjectControl" DataContext="{Binding EmployeeOnProjectControlViewModel}" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сотрудники">
+                <view:CrudTableView x:Name="EmployeeControl" DataContext="{Binding EmployeeControlViewModel}" />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

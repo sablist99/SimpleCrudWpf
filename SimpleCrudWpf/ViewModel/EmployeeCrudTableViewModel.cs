@@ -9,28 +9,28 @@ namespace SimpleCrudWpf.ViewModel
         public EmployeeCrudTableViewModel(ApiClient<Employee> employeeClient) : base (employeeClient)
         {
             TableConfiguration =
-                [
-                    new()
-                    {
-                        FieldName = nameof(Employee.Name),
-                        Label = "Имя",
-                    },
-                    new()
-                    {
-                        FieldName = nameof(Employee.LastName),
-                        Label = "Фамилия",
-                    },
-                    new()
-                    {
-                        FieldName = nameof(Employee.Patronymic),
-                        Label = "Отчество",
-                    },
-                    new()
-                    {
-                        FieldName = nameof(Employee.Email),
-                        Label = "Email",
-                    },
-                ];
+            [
+                new()
+                {
+                    FieldName = nameof(Employee.Name),
+                    Label = "Имя",
+                },
+                new()
+                {
+                    FieldName = nameof(Employee.LastName),
+                    Label = "Фамилия",
+                },
+                new()
+                {
+                    FieldName = nameof(Employee.Patronymic),
+                    Label = "Отчество",
+                },
+                new()
+                {
+                    FieldName = nameof(Employee.Email),
+                    Label = "Email",
+                },
+            ];
         }
     }
 }

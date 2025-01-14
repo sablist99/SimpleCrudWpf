@@ -21,7 +21,7 @@ namespace DataAccessLayer.Context
 
             //Foreign keys will be generated automatically
             modelBuilder.Entity<EmployeeOnProject>()
-                .HasKey(eop => new { eop.EmployeeId, eop.ProjectId });
+                .HasKey(eop => eop.Id);
         }
     }
 }

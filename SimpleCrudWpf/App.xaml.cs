@@ -1,7 +1,6 @@
 ﻿using Domain.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SimpleCrudWpf.View;
 using SimpleCrudWpf.ViewModel;
 using System.IO;
 using System.Windows;
@@ -36,13 +35,26 @@ namespace SimpleCrudWpf
                 client.BaseAddress = new Uri(uri);
             });
 
+            services.AddHttpClient<ApiClient<Project>>(client =>
+            {
+                string uri = $"{configuration["ApiSettings:ApiBaseUrl"]}Project";
+                client.BaseAddress = new Uri(uri);
+            });
+
+            services.AddHttpClient<ApiClient<EmployeeOnProject>>(client =>
+            {
+                string uri = $"{configuration["ApiSettings:ApiBaseUrl"]}EmployeeOnProject";
+                client.BaseAddress = new Uri(uri);
+            });
+
             // Registering ViewModel
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<EmployeeCrudTableViewModel>();
+            services.AddTransient<EmployeeOnProjectCrudTableViewModel>();
+            services.AddTransient<ProjectCrudTableViewModel>();
 
             // Registering MainWindow
             services.AddTransient<MainWindow>();
-            services.AddTransient<EmployeeControl>();
 
             ServiceProvider = services.BuildServiceProvider();
 
