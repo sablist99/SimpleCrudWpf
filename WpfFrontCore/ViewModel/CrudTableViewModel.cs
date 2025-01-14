@@ -1,5 +1,6 @@
 ﻿using Domain.Infrastructure;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using System.Windows.Input;
 using WpfFrontCore.Client;
 using WpfFrontCore.Infrastructure;
@@ -37,7 +38,7 @@ namespace WpfFrontCore.ViewModel
                 if (_tableData != value)
                 {
                     _tableData = value;
-                    OnPropertyChanged(); // Уведомляем об изменении
+                    OnPropertyChanged();
                 }
             }
         }
@@ -45,30 +46,85 @@ namespace WpfFrontCore.ViewModel
         public T? SelectedItem
         {
             get => _selectedItem;
-            set { _selectedItem = value; OnPropertyChanged(); }
+            set 
+            { 
+                _selectedItem = value; 
+                OnPropertyChanged();
+
+                // Check the possibility of executing commands
+                ((RelayCommand)EditCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
+            }
         }
 
-        private void OnAdd()
+        protected virtual void OnAdd()
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Add data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
         }
 
-        private void OnEdit()
+        protected virtual void OnEdit()
         {
             if (SelectedItem == null) return;
 
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Edit data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
         }
 
-        private void OnDelete()
+        protected virtual async void OnDelete()
         {
             if (SelectedItem == null) return;
 
-            throw new NotImplementedException();
-            TableData.Remove(SelectedItem);
+            try
+            {
+                var fieldValues = TableConfiguration
+                    .Select(config => new FieldValue
+                    {
+                        Field = config.Label,
+                        Value = SelectedItem.GetType()
+                                            .GetProperty(config.FieldName)?
+                                            .GetValue(SelectedItem, null)?
+                                            .ToString() ?? string.Empty
+                    });
+
+                var viewModel = new ConfirmDeleteViewModel(fieldValues);
+                var confirmWindow = new ConfirmDeleteWindow { DataContext = viewModel };
+
+                confirmWindow.ShowDialog();
+
+                if (viewModel.DialogResult)
+                {
+                    await Client.DeleteAsync(SelectedItem.Id);
+                    TableData.Remove(SelectedItem);
+                }
+            }
+            catch (HttpRequestException ex) when (ex.Message.Contains("foreign key constraint"))
+            {
+                var errorWindow = new ErrorWindow("The record cannot be deleted because it is in use.");
+                errorWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Delete data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
         }
 
-        private async void OnRefresh()
+        protected virtual async void OnRefresh()
         {
             try
             {

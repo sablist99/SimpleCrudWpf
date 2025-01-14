@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Ошибка" Height="200" Width="400">
+        Title="Ошибка" SizeToContent="Height" Width="400">
     <StackPanel Orientation="Vertical">
         <TextBlock x:Name="ErrorTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="10"/>
         <Button Content="Закрыть" HorizontalAlignment="Center" Width="100" Margin="10" Click="CloseButton_Click"/>

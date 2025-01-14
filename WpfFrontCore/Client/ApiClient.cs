@@ -23,7 +23,7 @@ namespace WpfFrontCore.Client
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<T>($"/{id}") ?? throw new Exception($"Record with Id = {id} not found.");
+                return await _httpClient.GetFromJsonAsync<T>($"{_httpClient.BaseAddress}/{id}") ?? throw new Exception($"Record with Id = {id} not found.");
             }
             catch (HttpRequestException ex)
             {
@@ -33,55 +33,29 @@ namespace WpfFrontCore.Client
 
         public async Task CreateAsync(T entity)
         {
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync("", entity);
-                response.EnsureSuccessStatusCode();
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception("Failed to create the record.");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error occurred while creating the record: {ex.Message}", ex);
-            }
+            var response = await _httpClient.PostAsJsonAsync("", entity);
+            await GenerateException(response);
         }
 
         public async Task UpdateAsync(int id, T entity)
         {
-            try
-            {
-                var response = await _httpClient.PutAsJsonAsync($"/{id}", entity);
-                response.EnsureSuccessStatusCode(); 
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception($"Failed to update the record with Id = {id}.");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error occurred while updating the record with Id = {id}: {ex.Message}", ex);
-            }
+            var response = await _httpClient.PutAsJsonAsync($"{_httpClient.BaseAddress}/{id}", entity);
+            await GenerateException(response);
         }
 
         public async Task DeleteAsync(int id)
         {
-            try
-            {
-                var response = await _httpClient.DeleteAsync($"/{id}");
-                response.EnsureSuccessStatusCode();
+            var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}/{id}");
+            await GenerateException(response);
+        }
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception($"Failed to delete the record with Id = {id}.");
-                }
-            }
-            catch (HttpRequestException ex)
+        protected static async Task GenerateException(HttpResponseMessage? response)
+        {
+            if (response != null && !response.IsSuccessStatusCode)
             {
-                throw new Exception($"Error occurred while deleting the record with Id = {id}: {ex.Message}", ex);
+                var errorContent = await response.Content.ReadAsStringAsync();
+
+                throw new HttpRequestException($"Error: {response.StatusCode}, Content: {errorContent}");
             }
         }
     }
