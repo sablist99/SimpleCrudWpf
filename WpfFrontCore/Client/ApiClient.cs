@@ -5,13 +5,13 @@ namespace WpfFrontCore.Client
 {
     public class ApiClient<T>(HttpClient httpClient) where T : class
     {
-        private readonly HttpClient _httpClient = httpClient;
+        public HttpClient HttpClient { get; } = httpClient;
 
         public async Task<List<T>> GetAllAsync()
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<T>>("") ?? [];
+                return await HttpClient.GetFromJsonAsync<List<T>>("") ?? [];
             }
             catch (HttpRequestException ex)
             {
@@ -23,7 +23,7 @@ namespace WpfFrontCore.Client
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<T>($"{_httpClient.BaseAddress}/{id}") ?? throw new Exception($"Record with Id = {id} not found.");
+                return await HttpClient.GetFromJsonAsync<T>($"{HttpClient.BaseAddress}/{id}") ?? throw new Exception($"Record with Id = {id} not found.");
             }
             catch (HttpRequestException ex)
             {
@@ -33,19 +33,19 @@ namespace WpfFrontCore.Client
 
         public async Task CreateAsync(T entity)
         {
-            var response = await _httpClient.PostAsJsonAsync("", entity);
+            var response = await HttpClient.PostAsJsonAsync("", entity);
             await GenerateException(response);
         }
 
         public async Task UpdateAsync(int id, T entity)
         {
-            var response = await _httpClient.PutAsJsonAsync($"{_httpClient.BaseAddress}/{id}", entity);
+            var response = await HttpClient.PutAsJsonAsync($"{HttpClient.BaseAddress}/{id}", entity);
             await GenerateException(response);
         }
 
         public async Task DeleteAsync(int id)
         {
-            var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}/{id}");
+            var response = await HttpClient.DeleteAsync($"{HttpClient.BaseAddress}/{id}");
             await GenerateException(response);
         }
 

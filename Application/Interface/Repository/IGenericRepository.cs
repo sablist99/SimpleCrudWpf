@@ -1,6 +1,6 @@
 ﻿using Domain.Infrastructure;
 
-namespace Application.Interface.Repository
+namespace CrudApplication.Interface.Repository
 {
     public interface IGenericRepository<T> where T : Entity
     {

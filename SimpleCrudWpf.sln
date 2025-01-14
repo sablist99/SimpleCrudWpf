@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCrudWpf", "SimpleCrudWpf\SimpleCrudWpf.csproj", "{0D6AF156-54CA-4EB7-BBC7-16A992417085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleCrudWpf", "SimpleCrudWpf\SimpleCrudWpf.csproj", "{0D6AF156-54CA-4EB7-BBC7-16A992417085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{F2DB0E0E-6210-411F-89BF-8F54411D2AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{F2DB0E0E-6210-411F-89BF-8F54411D2AB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{89268099-BA40-4200-850F-3DBF7629B0C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{89268099-BA40-4200-850F-3DBF7629B0C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{7C3FCC67-0074-4EF7-9DCD-300F7C52B6B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudApplication", "Application\CrudApplication.csproj", "{7C3FCC67-0074-4EF7-9DCD-300F7C52B6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationApi", "ApplicationApi\ApplicationApi.csproj", "{A31FAD99-2C46-4F67-A437-776328E7F5B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationApi", "ApplicationApi\ApplicationApi.csproj", "{A31FAD99-2C46-4F67-A437-776328E7F5B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFrontCore", "WpfFrontCore\WpfFrontCore.csproj", "{1B483D33-5BA3-47A2-845A-E29E6082CCAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfFrontCore", "WpfFrontCore\WpfFrontCore.csproj", "{1B483D33-5BA3-47A2-845A-E29E6082CCAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

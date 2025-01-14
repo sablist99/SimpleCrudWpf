@@ -19,12 +19,18 @@ namespace WpfFrontCore.ViewModel
 
             Client = client;
 
+            FetchDataDelegate = async () => await Client.GetAllAsync();
+
             try
             {
                 OnRefresh();
             }
             catch (Exception ex) { }
         }
+        
+        public delegate Task<IEnumerable<T>> ClientDelegate<T>();
+
+        public ClientDelegate<T> FetchDataDelegate { get; set; }
 
         public ObservableCollection<ControlConfiguration> TableConfiguration { get; set; } = [];
 
@@ -128,7 +134,7 @@ namespace WpfFrontCore.ViewModel
         {
             try
             {
-                TableData = new ObservableCollection<T>(await Client.GetAllAsync());
+                TableData = new ObservableCollection<T>(await FetchDataDelegate.Invoke());
             }
             catch (Exception ex)
             {

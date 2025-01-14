@@ -1,5 +1,5 @@
-using Application.BusinessLogic;
-using Application.Interface.Repository;
+using CrudApplication.BusinessLogic;
+using CrudApplication.Interface.Repository;
 using DataAccessLayer.Context;
 using DataAccessLayer.DataSeeder;
 using DataAccessLayer.Repository;
@@ -18,14 +18,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ?? throw new InvalidOperationException("Connection string 'Context' not found.")));
 
 // Register repositories and services
-builder.Services.AddScoped<IGenericRepository<Project>, GenericRepository<Project>>();
-builder.Services.AddScoped<GenericService<Project>>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ProjectService>();
 
 builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
 builder.Services.AddScoped<GenericService<Employee>>();
 
-builder.Services.AddScoped<IGenericRepository<EmployeeOnProject>, GenericRepository<EmployeeOnProject>>();
-builder.Services.AddScoped<GenericService<EmployeeOnProject>>();
+builder.Services.AddScoped<IEmployeeOnProjectRepository, EmployeeOnProjectRepository>();
+builder.Services.AddScoped<EmployeeOnProjectService>();
 
 var app = builder.Build();
 

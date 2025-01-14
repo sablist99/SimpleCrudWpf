@@ -1,4 +1,4 @@
-﻿using Application.BusinessLogic;
+﻿using CrudApplication.BusinessLogic;
 using Domain.Model;
 
 namespace ApplicationApi.Controllers

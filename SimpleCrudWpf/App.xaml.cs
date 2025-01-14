@@ -35,13 +35,13 @@ namespace SimpleCrudWpf
                 client.BaseAddress = new Uri(uri);
             });
 
-            services.AddHttpClient<ApiClient<Project>>(client =>
+            services.AddHttpClient<ProjectApiClient>(client =>
             {
                 string uri = $"{configuration["ApiSettings:ApiBaseUrl"]}Project";
                 client.BaseAddress = new Uri(uri);
             });
 
-            services.AddHttpClient<ApiClient<EmployeeOnProject>>(client =>
+            services.AddHttpClient<EmployeeOnProjectApiClient>(client =>
             {
                 string uri = $"{configuration["ApiSettings:ApiBaseUrl"]}EmployeeOnProject";
                 client.BaseAddress = new Uri(uri);

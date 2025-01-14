@@ -1,7 +1,7 @@
-﻿using Application.Interface.Repository;
+﻿using CrudApplication.Interface.Repository;
 using Domain.Infrastructure;
 
-namespace Application.BusinessLogic
+namespace CrudApplication.BusinessLogic
 {
     public class GenericService<T>(IGenericRepository<T> repository) where T : Entity
     {

@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application\CrudApplication.csproj" />
     <ProjectReference Include="..\WpfFrontCore\WpfFrontCore.csproj" />
   </ItemGroup>
 
