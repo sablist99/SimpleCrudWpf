@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using WpfFrontCore.Client;
 using WpfFrontCore.Infrastructure;
+using WpfFrontCore.View;
 
 namespace WpfFrontCore.ViewModel
 {
@@ -73,7 +74,11 @@ namespace WpfFrontCore.ViewModel
             {
                 TableData = new ObservableCollection<T>(await Client.GetAllAsync());
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                var errorWindow = new ErrorWindow($"Refresh data error: {ex.Message}");
+                errorWindow.ShowDialog();
+            }
         }
 
         #region Commands
