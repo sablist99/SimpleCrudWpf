@@ -1,5 +1,6 @@
 ﻿using CrudApplication.Dto;
 using Domain.Model;
+using SimpleCrudWpf.View;
 using WpfFrontCore.Client;
 using WpfFrontCore.ViewModel;
 
@@ -50,5 +51,26 @@ namespace SimpleCrudWpf.ViewModel
 
             FetchDataDelegate = async () => await ((ProjectApiClient)Client).GetAllDtoAsync();
         }
+
+        protected override async Task Add()
+        {
+            var viewModel = new ProjectEditViewModel(new ApiClient<Employee>(Client.HttpClient));
+            var confirmWindow = new ProjectEditWindow { DataContext = viewModel };
+
+            confirmWindow.ShowDialog();
+
+            {
+                var newProject = new Project
+                {
+
+                };
+
+                await Client.CreateAsync(newProject);
+                await Refresh();
+            }
+        }
+
+        protected override async Task Edit() =>
+            throw new NotImplementedException();
     }
 }

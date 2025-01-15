@@ -1,0 +1,63 @@
+﻿<Window x:Class="SimpleCrudWpf.View.ProjectEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Проект" Height="600" Width="800" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Padding" Value="10,2"/>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="5">
+        <TabControl SelectedItem="{Binding Binding CurrentStep, Mode=TwoWay}">
+            <TabItem Header="Шаг 1: Основная информация">
+                <StackPanel>
+                    <TextBlock Text="Название проекта" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Title}" Margin="5"/>
+
+                    <TextBlock Text="Дата начала" VerticalAlignment="Center"/>
+                    <DatePicker SelectedDate="{Binding StartDate}" Margin="5"/>
+
+                    <TextBlock Text="Дата окончания" VerticalAlignment="Center"/>
+                    <DatePicker SelectedDate="{Binding EndDate}" Margin="5"/>
+
+                    <TextBlock Text="Приоритет" VerticalAlignment="Center"/>
+                    <Slider Minimum="1" Maximum="5" Value="{Binding Priority}" Margin="5"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Шаг 2: Компании">
+                <StackPanel>
+                    <TextBlock Text="Компания-заказчик" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Project.Customer}" Margin="5"/>
+
+                    <TextBlock Text="Компания-исполнитель" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Project.Performer}" Margin="5"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Шаг 3: Руководитель">
+                <StackPanel>
+                    <TextBlock Text="Выберите руководителя проекта" VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding Employees}" SelectedItem="{Binding Project.Supervisor}" DisplayMemberPath="Name" Margin="5"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Шаг 4: Исполнители">
+                <StackPanel>
+                    <TextBlock Text="Выберите исполнителей проекта" VerticalAlignment="Center"/>
+                    <ListBox ItemsSource="{Binding Employees}"  DisplayMemberPath="Name" Margin="5"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="Назад" Command="{Binding BackCommand}"/>
+            <Button Content="Далее" Command="{Binding NextCommand}"/>
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" IsEnabled="{Binding IsLastStep}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

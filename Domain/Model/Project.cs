@@ -6,6 +6,20 @@ namespace Domain.Model
 {
     public class Project : Entity
     {
+        public Project() { }
+
+        public Project(Project other)
+        {
+            Id = other.Id;
+            Title = other.Title;
+            Customer = other.Customer;
+            Performer = other.Performer;
+            StartDate = other.StartDate;
+            EndDate = other.EndDate;
+            Priority = other.Priority;
+            SupervisorId = other.SupervisorId;
+        }
+
         /// <summary>
         /// Project name
         /// </summary>
