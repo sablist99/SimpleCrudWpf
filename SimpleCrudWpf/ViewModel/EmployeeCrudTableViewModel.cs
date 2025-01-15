@@ -43,15 +43,7 @@ namespace SimpleCrudWpf.ViewModel
 
             if (viewModel.DialogResult)
             {
-                var newEmployee = new Employee
-                {
-                    Name = viewModel.Name,
-                    LastName = viewModel.LastName,
-                    Patronymic = viewModel.Patronymic,
-                    Email = viewModel.Email,
-                };
-
-                await Client.CreateAsync(newEmployee);
+                await Client.CreateAsync(viewModel.Employee);
                 await Refresh();
             }
         }

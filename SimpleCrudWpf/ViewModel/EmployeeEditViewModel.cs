@@ -1,96 +1,93 @@
 ﻿using Domain.Model;
-using System.Windows.Input;
 using WpfFrontCore.Infrastructure;
 
 namespace SimpleCrudWpf.ViewModel
 {
-    public class EmployeeEditViewModel : BaseViewModel
+    public class EmployeeEditViewModel : DialogBaseViewModel
     {
-        public EmployeeEditViewModel()
+        public EmployeeEditViewModel() : base()
         {
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            CancelCommand = new RelayCommand(OnCancel);
+            Employee = new Employee();
         }
 
         public EmployeeEditViewModel(Employee employee) : this()
         {
-            Id = employee.Id;
-            Name = employee.Name;
-            LastName = employee.LastName;
-            Patronymic = employee.Patronymic;
-            Email = employee.Email;
+            if (employee == null) { throw new Exception("Empty employee"); }
+
+            Employee = new Employee(employee);
         }
 
-        public int Id { get; set; } 
+        private Employee _employee = null!;
+        public Employee Employee
+        {
+            get => _employee;
+            set
+            {
+                _employee = value;
+                OnPropertyChanged();
+                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
+        }
 
-        private string _name = string.Empty;
         public string Name
         {
-            get => _name;
+            get => Employee.Name;
             set
             {
-                _name = value;
-                OnPropertyChanged();
-                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                if (Employee.Name != value)
+                {
+                    Employee.Name = value;
+                    OnPropertyChanged();
+                    ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
             }
         }
 
-        private string _lastName = string.Empty;
         public string LastName
         {
-            get => _lastName;
+            get => Employee.LastName;
             set
             {
-                _lastName = value;
-                OnPropertyChanged();
-                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                if (Employee.LastName != value)
+                {
+                    Employee.LastName = value;
+                    OnPropertyChanged();
+                    ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
             }
         }
 
-        private string _patronymic = string.Empty;
         public string Patronymic
         {
-            get => _patronymic;
+            get => Employee.Patronymic;
             set
             {
-                _patronymic = value;
-                OnPropertyChanged();
-                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                if (Employee.Patronymic != value)
+                {
+                    Employee.Patronymic = value;
+                    OnPropertyChanged();
+                    ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
             }
         }
 
-        private string _email = string.Empty;
         public string Email
         {
-            get => _email;
+            get => Employee.Email;
             set
             {
-                _email = value;
-                OnPropertyChanged();
-                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                if (Employee.Email != value)
+                {
+                    Employee.Email = value;
+                    OnPropertyChanged();
+                    ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
             }
         }
 
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
-
-        public bool DialogResult { get; private set; }
-
-        private void OnSave()
+        protected override bool CanSave()
         {
-            DialogResult = true;
-            CloseWindow();
-        }
-
-        private bool CanSave()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(LastName);
-        }
-
-        private void OnCancel()
-        {
-            DialogResult = false;
-            CloseWindow();
+            return !string.IsNullOrWhiteSpace(Employee.Name) && !string.IsNullOrWhiteSpace(Employee.LastName);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using WpfFrontCore.Infrastructure;
 
 namespace WpfFrontCore.ViewModel
 {
-    public class ConfirmDeleteViewModel : BaseViewModel
+    public class ConfirmDeleteViewModel : DialogBaseViewModel
     {
         public ObservableCollection<FieldValue> FieldValues { get; }
 
@@ -32,8 +31,5 @@ namespace WpfFrontCore.ViewModel
             DialogResult = false;
             CloseWindow();
         }
-
-
-
     }
 }

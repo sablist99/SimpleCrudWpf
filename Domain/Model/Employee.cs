@@ -5,6 +5,17 @@ namespace Domain.Model
 {
     public class Employee : Entity
     {
+        public Employee() { }
+
+        public Employee(Employee other) 
+        {
+            Id = other.Id;
+            Name = other.Name;
+            LastName = other.LastName;
+            Patronymic = other.Patronymic;
+            Email = other.Email;
+        }
+
         /// <summary>
         /// Employee name
         /// </summary>
